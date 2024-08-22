@@ -18,7 +18,7 @@ export default function Full() {
   const [collections, setCollections] = useState<CollectionT[]>();
 
   function getCapitalized() {
-    return type === 'movies' ? 'Movies' : 'Series';
+    return type === 'movies' ? 'Movies' : 'tv';
   }
 
   async function getData() {
@@ -27,12 +27,12 @@ export default function Full() {
       return;
     }
 
-    if (type !== 'movies' && type !== 'series') {
+    if (type !== 'movies' && type !== 'tv') {
       nav('/');
       return;
     }
 
-    const req = await fetch(`${import.meta.env.VITE_APP_API}/${type === 'movies' ? 'movie' : 'series'}`);
+    const req = await fetch(`${import.meta.env.VITE_APP_API}/${type === 'movies' ? 'movie' : 'tv'}`);
     const res = await req.json();
 
     if (!res.success) {
@@ -76,7 +76,7 @@ export default function Full() {
           <p className="hero-text">{hero.description.length > 200 ? hero.description.slice(0, 160).trim() + '...' : hero.description}</p>
 
           <div className="hero-actions">
-            <Link className="button" to={`/watch/${hero.id}${hero.type === 'series' ? '?s=1&e=1' : ''}`}>
+            <Link className="button" to={`/watch/${hero.id}${hero.type === 'tv' ? '?s=1&e=1' : ''}`}>
               <i className="fa-solid fa-play"></i>
               <span>Play</span>
             </Link>
