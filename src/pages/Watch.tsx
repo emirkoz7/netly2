@@ -48,7 +48,7 @@ export default function Watch() {
     url += `?v=${import.meta.env.VITE_APP_VERSION}&n=${import.meta.env.VITE_APP_NAME}`;
 
     if (window.location.origin) url += `&o=${encodeURIComponent(window.location.origin)}`;
-    if (type === 'tv') url += `&s=${season}&e=${episode}`;
+   
 
     return url;
   }
