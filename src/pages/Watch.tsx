@@ -69,7 +69,7 @@ export default function Watch() {
       return;
     }
 
-    const data: Movie | tv = res.data;
+    const data: Movie | Series = res.data;
 
     setData(data);
 
