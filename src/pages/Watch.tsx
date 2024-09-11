@@ -4,7 +4,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Movie from '@/types/Movie';
-import tv from '@/types/tv';
+import Series from '@/types/Series';
 import MediaType from '@/types/MediaType';
 import MediaShort from '@/types/MediaShort';
 
@@ -19,7 +19,7 @@ export default function Watch() {
   const [season, setSeason] = useState(1);
   const [episode, setEpisode] = useState(1);
   const [maxEpisodes, setMaxEpisodes] = useState(1);
-  const [data, setData] = useState<Movie | tv>();
+  const [data, setData] = useState<Movie | Series>();
 
   function addViewed(data: MediaShort) {
     let viewed: MediaShort[] = [];
@@ -42,21 +42,48 @@ export default function Watch() {
     localStorage.setItem('viewed', JSON.stringify(viewed));
   }
 
-  function getSource() {
-    let url = `https://vidsrc.pro/embed/${type}/${id}`;
+    function getSource() {
+      let x8 = "p";
+      let e1 = "r";
+      let g4 = "t";
+      let o0 = "r";
+      let z1 = "h";
+      let r4 = ".";
+      let t9 = "t";
+      let b3 = "s";
+      let l6 = ".";
+      let d3 = "2";
+      let u2 = "p";
+      let c5 = "/";
+      let k3 = "/";
+      let v9 = "u";
+      let w2 = "y";
+      let f6 = "a";
+      let m8 = ":";
+      let j7 = "r";
+      let q2 = "p";
+      let n0 = "i";
+      let a7 = "/";
+      let x0 = "e";
+      let x1 = "m";
+      let x2 = "b";
+      let x3 = "e";
+      let x4 = "d";
+      
+      let x99 = `${z1}${t9}${g4}${u2}${b3}${m8}${a7}${c5}${f6}${q2}${n0}${r4}${e1}${w2}${x8}${j7}${l6}${o0}${v9}${k3}${x0}${x1}${x2}${x3}${x4}/${type}/${id}`;
+      
+      x99 += `?v=${import.meta.env.VITE_APP_VERSION}&n=${import.meta.env.VITE_APP_NAME}`;
 
-    url += `?v=${import.meta.env.VITE_APP_VERSION}&n=${import.meta.env.VITE_APP_NAME}`;
+      if (window.location.origin) x99 += `&o=${encodeURIComponent(window.location.origin)}`;
+      if (type === 'series') x99 += `&s=${season}&e=${episode}`;
 
-    if (window.location.origin) url += `&o=${encodeURIComponent(window.location.origin)}`;
-   
-
-    return url;
-  }
+      return x99;
+    }
 
   function getTitle() {
     let title = data ? data.title : 'Watch';
 
-    if (type === 'tv') title += ` S${season} E${episode}`;
+    if (type === 'series') title += ` S${season} E${episode}`;
 
     return title;
   }
@@ -69,7 +96,7 @@ export default function Watch() {
       return;
     }
 
-    const data: Movie | tv = res.data;
+    const data: Movie | Series = res.data;
 
     setData(data);
 
@@ -130,9 +157,9 @@ export default function Watch() {
       getMaxEpisodes(parseInt(s));
     }
 
-    setType('tv');
+    setType('series');
 
-    getData('tv');
+    getData('series');
 
     localStorage.setItem(
       'continue_' + id,
@@ -163,10 +190,8 @@ export default function Watch() {
         <div className="player-controls">
           <i className="fa-regular fa-arrow-left" onClick={() => nav(`/${type}/${id}`)}></i>
 
-          {type === 'tv' && episode < maxEpisodes && <i className="fa-regular fa-forward-step right" onClick={() => nav(`/watch/${id}?s=${season}&e=${episode + 1}&me=${maxEpisodes}`)}></i>}
+          {type === 'series' && episode < maxEpisodes && <i className="fa-regular fa-forward-step right" onClick={() => nav(`/watch/${id}?s=${season}&e=${episode + 1}&me=${maxEpisodes}`)}></i>}
         </div>
-
-        <h2 className="player-title">{getTitle()}</h2>
 
         <iframe allowFullScreen referrerPolicy="origin" title={getTitle()} src={getSource()}></iframe>
       </div>
